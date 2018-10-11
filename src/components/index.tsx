@@ -14,6 +14,8 @@ export class Root extends React.Component<{}, {}>{
           style: {
             width: '100px',
             height: '30px',
+            left: 0,
+            top: 0
           }
         }
       },
@@ -31,12 +33,30 @@ export class Root extends React.Component<{}, {}>{
       }
     ]
   }
-  renderInput(prop) {
+
+  styleChange = (key, data) => {
+    const { cmpConf } = this.state;
+    cmpConf[key].prop.style = Object.assign({}, cmpConf[key].prop.style, data);
+    this.setState({cmpConf});
+  }
+
+  renderInput(prop, key) {
     return (
-      <Input type={prop.type} value={prop.value} style={{width: prop.style}} />
+      <Input
+        type={prop.type}
+        value={prop.value}
+        key={key}
+        style={{
+          width: prop.style.width,
+          position: 'fixed',
+          left: prop.style.left + 'px',
+          top: prop.style.top + 'px'
+        }}
+        styleChange={(data) => { this.styleChange(key, data) }}
+      />
     );
   }
-  renderText(prop) {
+  renderText(prop, key) {
     return (
       <Text value={prop.value} />
     );
@@ -48,9 +68,9 @@ export class Root extends React.Component<{}, {}>{
           this.state.cmpConf.map((item, key) => {
             switch (item.type) {
               case 'input':
-                return this.renderInput(item.prop);
+                return this.renderInput(item.prop, key);
               case 'text':
-                return this.renderText(item.prop);
+                return this.renderText(item.prop, key);
               default:
                 return;
             }
