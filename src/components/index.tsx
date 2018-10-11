@@ -3,35 +3,25 @@ import { Input } from './input';
 import { Text } from './text';
 
 
-export class Root extends React.Component<{}, {}>{
-  public state = {
-    cmpConf: [
-      {
-        type: 'input',
-        prop: {
-          value: 'test',
+export class Root extends React.Component<{}, {cmpConf:any}>{
+  constructor(props, context) {
+    super(props, context);
+    this.state =  {
+      cmpConf: [
+        {
           type: 'text',
-          style: {
-            width: '100px',
-            height: '30px',
-            left: 0,
-            top: 0
+          prop: {
+            value: 'test',
+            style: {
+              width: '100px',
+              height: '30px',
+              left: 0,
+              top: 0
+            }
           }
         }
-      },
-      {
-        type: 'text',
-        prop: {
-          value: 'test',
-          style: {
-            width: '100px',
-            height: '30px',
-            left: 0,
-            top: 0
-          }
-        }
-      }
-    ]
+      ]
+    }
   }
 
   styleChange = (key, data) => {
@@ -61,9 +51,29 @@ export class Root extends React.Component<{}, {}>{
       <Text value={prop.value} />
     );
   }
+  createInput() {
+    const { cmpConf } = this.state;
+    cmpConf.push({
+      type: 'input',
+      prop: {
+        value: 'test',
+        type: 'text',
+        style: {
+          width: '100px',
+          height: '30px',
+          left: 10,
+          top: 30
+        }
+      }
+    });
+    this.setState({cmpConf});
+  }
   render() {
     return (
       <div>
+        <div className="tools">
+          <span onClick={() => this.createInput()}>create input</span>
+        </div>
         {
           this.state.cmpConf.map((item, key) => {
             switch (item.type) {
