@@ -29,21 +29,22 @@ export class Input extends React.Component<InputProps, {}> {
   }
 
   mouseDragStart = (ev) => {
-    ev.target.style.opacity = 0.5;
+    ev.target.style.opacity;
     this.mousePosition.x = ev.clientX;
     this.mousePosition.y = ev.clientY;
   }
   mouseDrag = (ev) => {
     console.log(ev.clientX);
+    
+  }
+  mouseDragEnd = (ev) => {
+    ev.target.style.opacity = 1;
     this.props.styleChange({
       left: ev.target.offsetLeft + (ev.clientX - this.mousePosition.x),
       top: ev.target.offsetTop + (ev.clientY - this.mousePosition.y),
     })
     this.mousePosition.x = ev.clientX;
     this.mousePosition.y = ev.clientY;
-  }
-  mouseDragEnd = (ev) => {
-    ev.target.style.opacity = 1;
   }
 
   render() {
